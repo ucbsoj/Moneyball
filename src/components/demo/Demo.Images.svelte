@@ -21,7 +21,7 @@
 <div class="small">
 	<Image
 		src="assets/demo/test.jpg"
-		alt="A lake and some clouds"
+		alt="Moneyball cover"
 		caption="The image will fill the width and height of its container"
 	/>
 </div>
@@ -34,7 +34,7 @@
 
 <style>
 	.small {
-		width: 300px;
+		width: 500px;
 		margin: 36px auto;
 	}
 
