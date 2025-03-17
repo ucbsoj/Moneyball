@@ -3,9 +3,55 @@
 	import DemoScrolly from "$components/demo/Demo.Scrolly.svelte";
 	import Image from "$components/helpers/Image.svelte";
 	import Video from "$components/helpers/Video.svelte";
-	import { text } from "@sveltejs/kit";
+	import { autoType } from "d3";
 	let choice = $state("AVG")
 			  $inspect({choice})
+	import {onMount} from "svelte";
+	import stadiumSvg from '$svg/stadium_final.svg';
+		let hoveredId = $state() // stores the id of the rectangle that's being hovered on
+    	// This is a JavaScript Object
+    	// salaries["Aaron Judge"] -> 40M
+    	const salaries = {
+        	"Juan Soto": '61.875M',
+        	"Zach Wheeler": '42M',
+       	 	"Aaron Judge": '40M',
+       	 	"Jacob deGrom": '40M',
+        	"Anthony Rendon": '38.57M',
+        	"Carlos Correa": '37.33M',
+       		"Jose Altuve": '33M',
+        	"Tyler Glasnow": '32.5M',
+        	"Nolan Arenado": '32M',
+        	"Corbin Burnes": '30.83M',
+        	"Vladimir Guerrero Jr.": '28.5M',
+        	"Dansby Swanson": '28M',
+        	"Rafael Devers": '28M',
+        	"Kris Bryant": '27M',
+        	"Xander Bogaerts": '25.45M',
+        	"Matt Chapman": '25.16M',
+        	"Jack Flaherty": '25M',
+        	"Luis Castillo": '24.15M',
+        	"Christian Yelich": '24.09M',
+        	"Austin Riley": '22M',
+        	"Nick Martinez": '21.05M',
+        	"Luis Severino": '20M',
+        	"Salvador Perez": '20M',
+        	"Jose Ramirez": '19M',
+        	"Zach Eflin": '18M',
+       		"Sandy Alcantara": '17.3M',
+        	"Andrew Benintendi": '17.1M',
+        	"Mitch Keller": '15.41M',
+        	"Ha-seong Kim": '13M',
+        	"Nathaniel Lowe": '10.3M'
+    	};
+    	onMount(() => {
+   			const rectangles = Array.from(document.querySelectorAll("rect, path")).filter(d => !d.id.startsWith("Rectangle") && !d.id.startsWith("Vector"));
+    		console.log({rectangles})
+    		rectangles.forEach(rectangle => {
+    		rectangle.addEventListener("mouseenter", (e) =>
+    	{hoveredId = e.target.id;});
+    		rectangle.addEventListener("mouseleave", (e) =>
+    	{hoveredId = undefined;})})
+    	});
 
 </script>
 
@@ -38,9 +84,9 @@
 		</p>
 	
 			<Image
-		src="assets/images/shoheiawards.svg"
-		alt="Shohei Awards 2018-2023"
-		/>
+				src="assets/images/shoheiawards.svg"
+				alt="Shohei Awards 2018-2023"
+			/>
 
 		<p>
 			Several teams were rumored to be in the Ohtani sweepstakes. However, 
@@ -87,12 +133,59 @@
 			with a deal of $765 million for 15 years and no deferral of payment, 
 			deeming Soto the new record-holder.  </p>
 	</div>
+	<div class="row">
+			<Image
+				src="assets/images/card_Shohei.svg"
+				alt="Shohei Ohtani" />
+			<Image
+				src="assets/images/card_Soto.svg"
+				alt="Juan Soto" />
+			<Image
+				src="assets/images/card_Marco.svg"
+				alt="Marco Gonzales" />
+			<Image
+				src="assets/images/card_Zach.svg"
+				alt="Zach Eflin" />
+		<style>
+			.row{max-width: 60rem; padding: 16px; margin: 0 auto;}
+		</style>
+	</div>
+	<div class="caption">
+		The baseball cards above display the contracts of the Shohei Ohtani, 
+		Juan Soto, Marco Gonzales and Zach Eflin, who are all the highest paid 
+		players on their respective teams. Ohtani and Soto belong to teams whose 
+		total payroll is among the highest in the league, while Gonzales and 
+		Eflin belong to teams among the lowest payrolls. Source: Spotrac.com
+	</div>
+
 	<div class="chart-wrapper">
 		<iframe title="There is a maximum $5M million gap between the highest-paid players 
 		on each team." aria-label="Bar Chart" id="datawrapper-chart-VTTNq" 
 		src="https://datawrapper.dwcdn.net/VTTNq/1/" scrolling="no" frameborder="0" 
-		style="width: 0; margin: 0 auto; padding: 32px; min-width: 100% !important; border: none;" height="900" data-external="1"></iframe>
-	  </div>
+		style="width: 0; margin: 0 auto; padding: 32px; min-width: 100% !important; border: none;" 
+		height="900" data-external="1"></iframe>
+	</div>
+
+	<div class="caption">
+		Note: Shohei Ohtani does not appear on this chart because of the deferral of payment
+		that was agreed to in his contract. 
+	</div>
+
+	<div class="stadium-container">
+        {@html stadiumSvg}
+		<style>
+			.stadium-container{
+				align: center;
+			}
+		</style>
+    </div>
+    <div class="name-salary">
+    	{#if hoveredId}
+        	<p>Player: {hoveredId}</p>
+        	<p>Salary: {salaries[hoveredId]}</p>
+    	{/if}
+    	</div>
+
 </section>
 
 <section>
@@ -133,6 +226,10 @@
 			budget than most of the league, the A’s couldn’t compete financially with 
 			other teams when acquiring new talent, so Beane realized he had to 
 			outsmart—not outspend—his competition. </p>
+		<Image
+			src="assets/images/beanequote.png"
+			alt="Billy Beane Quote from Moneyball (2011)"
+			/>
 		<p>
 			Beane and his front office, including assistant general manager Paul 
 			DePodesta, turned to sabermetrics—a data-driven approach to evaluating 
@@ -169,15 +266,16 @@
 	</div>
 	</section>
 
-	<section>
+<section>
 		
 		<main>
 			<div class="text">
 				<p>A Growing Disparity</p>
 			</div>
 		</main>
-<div class="wrapper">
-	<select name="payroll years" bind:value={choice}>
+<div class="row">
+	<div class="wrapper">
+		<select name="payroll years" bind:value={choice}>
 			<!--<option value="">choose</option>-->
 			<option value="AVG">AVG</option>
 			<option value="2024">2024</option>
@@ -192,8 +290,8 @@
 			<option value="2015">2015</option>
 			<option value="2014">2014</option>
 			<option value="2013">2013</option>
-	</select>
-	<div class="row">
+		</select>
+		<div class="row">
 		  <div class="wrapper">
 			{#if choice === "AVG"}
 			<iframe
@@ -233,43 +331,96 @@
 			data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2021"}
-			<iframe title="MLB Teams Payroll Ranking in 2021" aria-label="Bar Chart" id="datawrapper-chart-uANrr" src="https://datawrapper.dwcdn.net/uANrr/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2021" aria-label="Bar Chart" 
+			id="datawrapper-chart-uANrr" src="https://datawrapper.dwcdn.net/uANrr/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2020"}
-			<iframe title="MLB Teams Payroll Ranking in 2020" aria-label="Bar Chart" id="datawrapper-chart-hS4E6" src="https://datawrapper.dwcdn.net/hS4E6/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2020" aria-label="Bar Chart" 
+			id="datawrapper-chart-hS4E6" src="https://datawrapper.dwcdn.net/hS4E6/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2019"}
-			<iframe title="MLB Teams Payroll Ranking in 2019" aria-label="Bar Chart" id="datawrapper-chart-GmvVS" src="https://datawrapper.dwcdn.net/GmvVS/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2019" aria-label="Bar Chart" 
+			id="datawrapper-chart-GmvVS" src="https://datawrapper.dwcdn.net/GmvVS/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2018"}
-			<iframe title="MLB Teams Payroll Ranking in 2018" aria-label="Bar Chart" id="datawrapper-chart-GSZXs" src="https://datawrapper.dwcdn.net/GSZXs/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2018" aria-label="Bar Chart" 
+			id="datawrapper-chart-GSZXs" src="https://datawrapper.dwcdn.net/GSZXs/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	 		 {#if choice === "2017"}
-			<iframe title="MLB Teams Payroll Ranking in 2017" aria-label="Bar Chart" id="datawrapper-chart-Gf6XK" src="https://datawrapper.dwcdn.net/Gf6XK/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2017" aria-label="Bar Chart" 
+			id="datawrapper-chart-Gf6XK" src="https://datawrapper.dwcdn.net/Gf6XK/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2016"}
-			<iframe title="MLB Teams Payroll Ranking in 2016" aria-label="Bar Chart" id="datawrapper-chart-KV3mj" src="https://datawrapper.dwcdn.net/KV3mj/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2016" aria-label="Bar Chart" 
+			id="datawrapper-chart-KV3mj" src="https://datawrapper.dwcdn.net/KV3mj/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2015"}
-			<iframe title="MLB Teams Payroll Ranking in 2015" aria-label="Bar Chart" id="datawrapper-chart-tElI4" src="https://datawrapper.dwcdn.net/tElI4/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2015" aria-label="Bar Chart" 
+			id="datawrapper-chart-tElI4" src="https://datawrapper.dwcdn.net/tElI4/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2014"}
-			<iframe title="MLB Teams Payroll Ranking in 2014" aria-label="Bar Chart" id="datawrapper-chart-jMwJF" src="https://datawrapper.dwcdn.net/jMwJF/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2014" aria-label="Bar Chart" 
+			id="datawrapper-chart-jMwJF" src="https://datawrapper.dwcdn.net/jMwJF/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  		{#if choice === "2013"}
-			<iframe title="MLB Teams Payroll Ranking in 2013" aria-label="Bar Chart" id="datawrapper-chart-JdcpT" src="https://datawrapper.dwcdn.net/JdcpT/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="785" data-external="1"></iframe>
+			<iframe title="MLB Teams Payroll Ranking in 2013" aria-label="Bar Chart" 
+			id="datawrapper-chart-JdcpT" src="https://datawrapper.dwcdn.net/JdcpT/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="785" data-external="1"></iframe>
 	  		{/if}
 	  	</div>
 	 	 <div class="wrapper">
-			<iframe title="Total Playoff Appearance" aria-label="Bar Chart" id="datawrapper-chart-sJEgW" src="https://datawrapper.dwcdn.net/sJEgW/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="884" data-external="1"></iframe>
+			<iframe title="Total Playoff Appearance" aria-label="Bar Chart" 
+			id="datawrapper-chart-sJEgW" src="https://datawrapper.dwcdn.net/sJEgW/1/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; 
+			border: none;" height="884" data-external="1"></iframe>
 	 	 </div>
 	<style>
-		.row{display: flex; gap: two elements;grid-column-gap:20px;}
+		.row{display: flex; gap: two elements;grid-column-gap:37px;padding: 10px;width: 100%;}
+	</style>
+		</div>
+	<div class="small">In the chart on the left, salary is shown in millions. Use the drop down menu
+		to explore salary by year. In the chart on the right, playoff bracket appearances 
+		were calculated based on the number of times a team appeared in a wild card, 
+		divisional, or championship series and if they made it to the World Series. 
+		Because higher-seeded teams start in the divisional series, rather than the 
+		wildcard, a point was added to a team’s total number of appearances every 
+		time it started its postseason run in the divisional. This was to ensure 
+		that all teams at the divisional bracket level would have an equal number of total 
+		appearances. For example, in 2024, the Dodgers, Yankees, Phillies and Guardians 
+		received two points for their divisional appearances because they did not play in 
+		a wildcard game. Whereas, the Padres, Mets, Royals and Tigers received one point 
+		for a wildcard appearance and one point for a divisional appearance.</div>
+	<style>
+		.small{
+			max-width: 60rem;
+			padding: 16px;
+			margin: 0 auto;
+			font-size: small;
+			position: relative;
+			top: -75px;
+		}
 	</style>
 	</div>	
 </div>
 		
-		<div class="text">
+		<div class="medium">
 			<p>
 				Since the Oakland A’s had its odds-defying season in 2002, the economic 
 				disparity between teams has only grown wider. </p>
@@ -291,9 +442,15 @@
 				weighted calculation of playoff bracket appearances takes into account 
 				how far teams make it in the playoffs. Both the Dodgers and the Astros 
 				have made it to four World Series since 2013 and won twice. </p>
+	
 		<div class="row">
 			<Image src="assets/images/winperscatter.png" alt text="Win Per vs. Average Salary Scatterplot"/>
 			<Image src="assets/images/playoffscatter.png" alt text="Playoff Bracket Appearance vs. Average Salaray Scatterplot"/>
+			<style>
+				.row{
+					padding: 5px;
+				}
+			</style>
 		</div>
 			<p> 
 				Trends show that as average payroll increases, so does average win 
@@ -311,13 +468,22 @@
 				published an investigation in The Athletic exposing the Astros for using 
 				cameras to illegally steal signs from opponents in the 2017 season. </p>
 			<Video 
-				src="assets/video/psteams.mp4"
+				src="assets/video/psteams13-24.mp4"
 				alt="Post Season Teams 2013-2024"
 				controls={false}
 				customControls={true}
 				/>
+		<style>
+			.medium{
+				max-width: 60rem;
+				padding: 16px;
+				margin: 0 auto;
+				position: relative;
+				top: -50px;
+			}
+		</style>
 		</div>
-		</section>
+	</section>
 
 	<section>
 			
@@ -441,6 +607,41 @@
 	.wrapper {
 		width: 1200px;
 		margin: 0 auto;
+		margin-bottom: 0%;
 		gap: 2 elements;
 	}
+	.cards_container{
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        padding: auto;
+        max-width: 200px;
+    }
+    .name-salary {
+        display: block;
+        margin: 10px 30px;
+        border-radius: 5px;
+        height: 150px;
+    } 
+	.caption{
+			max-width: 60rem;
+			padding: 16px;
+			margin: 0 auto;
+			font-size: small;
+			position: relative;
+	}
+	.stadium-container {
+        display: inline-block;
+        width: 100%;
+        height: auto;
+        max-width: 700px;
+        overflow: hidden;
+        margin: 0 32px;
+    }
+    .name-salary {
+        display: block;
+        margin: 10px 30px;
+        border-radius: 5px;
+        height: 150px;
+    }
 </style>
