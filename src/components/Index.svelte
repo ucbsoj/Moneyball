@@ -3,11 +3,16 @@
 	import DemoScrolly from "$components/demo/Demo.Scrolly.svelte";
 	import Image from "$components/helpers/Image.svelte";
 	import Video from "$components/helpers/Video.svelte";
-	import { autoType } from "d3";
+	/*import { autoType, autoType } from "d3";*/
+	import Shoheicard from '$svg/card_Shohei.svg';
+    import Sotocard from '$svg/card_Soto.svg';
+    import Marcocard from '$svg/card_Marco.svg';
+    import Zachcard from '$svg/card_Zach.svg';
 	let choice = $state("AVG")
 			  $inspect({choice})
 	import {onMount} from "svelte";
 	import stadiumSvg from '$svg/stadium_final.svg';
+	import { autoType } from "d3";
 		let hoveredId = $state() // stores the id of the rectangle that's being hovered on
     	// This is a JavaScript Object
     	// salaries["Aaron Judge"] -> 40M
@@ -133,7 +138,33 @@
 			with a deal of $765 million for 15 years and no deferral of payment, 
 			deeming Soto the new record-holder.  </p>
 	</div>
-	<div class="row">
+	
+	<style>
+	.cards_container{
+        display: flex;
+		align-items: center;
+        width: 100%;
+        height: auto;
+        padding: auto;
+        max-width: 200px;
+    }
+	</style>
+
+<div class="row">
+	<div class="cards_container">
+        {@html Shoheicard}
+    </div>
+    <div class="cards_container">
+        {@html Sotocard}
+    </div>
+    <div class="cards_container">
+        {@html Marcocard}
+    </div>
+    <div class="cards_container">
+        {@html Zachcard}
+    </div>
+</div>
+	<!--div class="row">
 			<Image
 				src="assets/images/card_Shohei.svg"
 				alt="Shohei Ohtani" />
@@ -145,7 +176,7 @@
 				alt="Marco Gonzales" />
 			<Image
 				src="assets/images/card_Zach.svg"
-				alt="Zach Eflin" />
+				alt="Zach Eflin" />-->
 		<style>
 			.row{max-width: 60rem; padding: 16px; margin: 0 auto;}
 		</style>
@@ -164,13 +195,15 @@
 		src="https://datawrapper.dwcdn.net/VTTNq/1/" scrolling="no" frameborder="0" 
 		style="width: 0; margin: 0 auto; padding: 32px; min-width: 100% !important; border: none;" 
 		height="900" data-external="1"></iframe>
+		<p style="font-size:x-small; text-align:center">Note: Shohei Ohtani does not appear on this chart because of the deferral of payment
+			that was agreed to in his contract.
+		</p>
 	</div>
 
-	<div class="caption">
-		Note: Shohei Ohtani does not appear on this chart because of the deferral of payment
-		that was agreed to in his contract. 
-	</div>
-
+	<!--<div class="caption">
+		 
+	</div>-->
+<div class="row">
 	<div class="stadium-container">
         {@html stadiumSvg}
 		<style>
@@ -179,14 +212,14 @@
 			}
 		</style>
     </div>
+</div>
     <div class="name-salary">
     	{#if hoveredId}
         	<p>Player: {hoveredId}</p>
         	<p>Salary: {salaries[hoveredId]}</p>
     	{/if}
-    	</div>
+    </div>
 
-</section>
 
 <section>
 	
@@ -286,6 +319,18 @@
 				<p>A Growing Disparity</p>
 			</div>
 		</main>
+<div class="text">
+	<p>
+		Since the Oakland A’s had its odds-defying season in 2002, the economic 
+		disparity between teams has only grown wider. </p>
+	<p> 
+		In 2024, there was an over $200 million gap between the New York Mets, 
+		who had the highest payroll, and the Oakland A’s, who had the lowest. </p>
+	<p>
+		The average payroll (in millions) of all 30 MLB teams are shown in the chart below.
+		To explore total payroll by year, click on the drop down menu to select 
+		specific seasons. </p>
+</div>
 <div class="row">
 	<div class="wrapper">
 		<select name="payroll years" bind:value={choice}>
@@ -307,17 +352,11 @@
 		<div class="row">
 		  <div class="wrapper">
 			{#if choice === "AVG"}
-			<iframe
-				title="On average, LAD's total payroll is the highest in 2013-2024"
-				aria-label="Bar Chart"
-				id="datawrapper-chart-BcGUF"
-				src="https://datawrapper.dwcdn.net/BcGUF/1/"
-				scrolling="no"
-				frameborder="0"
-				style="width: 0; min-width: 100% !important; border: none;"
-				height="795"
-				data-external="1">
-			</iframe>
+			<iframe title="On average, LAD's total payroll is the highest in 2013-2024" 
+			aria-label="Bar Chart" id="datawrapper-chart-BcGUF" 
+			src="https://datawrapper.dwcdn.net/BcGUF/2/" 
+			scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" 
+			height="795" data-external="1"></iframe>
 			{/if}
 			{#if choice === "2024"}
 			<iframe
@@ -408,18 +447,6 @@
 		.row{display: flex; gap: two elements;grid-column-gap:37px;padding: 10px;width: 100%;}
 	</style>
 		</div>
-	<div class="small">In the chart on the left, salary is shown in millions. Use the drop down menu
-		to explore salary by year. In the chart on the right, playoff bracket appearances 
-		were calculated based on the number of times a team appeared in a wild card, 
-		divisional, or championship series and if they made it to the World Series. 
-		Because higher-seeded teams start in the divisional series, rather than the 
-		wildcard, a point was added to a team’s total number of appearances every 
-		time it started its postseason run in the divisional. This was to ensure 
-		that all teams at the divisional bracket level would have an equal number of total 
-		appearances. For example, in 2024, the Dodgers, Yankees, Phillies and Guardians 
-		received two points for their divisional appearances because they did not play in 
-		a wildcard game. Whereas, the Padres, Mets, Royals and Tigers received one point 
-		for a wildcard appearance and one point for a divisional appearance.</div>
 	<style>
 		.small{
 			max-width: 60rem;
@@ -435,26 +462,30 @@
 		
 		<div class="medium">
 			<p>
-				Since the Oakland A’s had its odds-defying season in 2002, the economic 
-				disparity between teams has only grown wider. </p>
-			<p>
-				The average payrolls of all 30 MLB teams are shown in the following chart.
-				To explore total payroll by year, click on the menu button to select 
-				specific seasons. </p>
-			<p> 
-				In 2024, there was an over $200 million gap between the New York Mets, 
-				who had the highest payroll, and the Oakland A’s, who had the lowest. </p>
-			<p>
-				Money also had consistent influence on success. </p>
+				In the chart on the right, teams appear on the y-axis from highest average payroll over 
+				the last 12 seasons at the top, to the lowest payrolls at the bottom. Playoff 
+				bracket appearances were calculated based on the number of times a team appeared in a wild card, 
+				divisional, or championship series and if they made it to the World Series. 
+				Because higher-seeded teams start in the divisional series, rather than the 
+				wildcard, a point was added to a team’s total number of appearances every 
+				time it started its postseason run in the divisional. This was to ensure 
+				that all teams at the divisional bracket level would have an equal number of total 
+				appearances. For example, in 2024, the Dodgers, Yankees, Phillies and Guardians 
+				received two points for their divisional appearances because they did not play in 
+				a wildcard game. Whereas, the Padres, Mets, Royals and Tigers received one point 
+				for a wildcard appearance and one point for a divisional appearance.</p>
 			<p>
 				In the last 12 seasons, the top 15 wealthiest teams appeared in 118 
 				more playoff bracket appearances than the bottom 15. While every team 
-				across the payroll spectrum have made it to the playoffs at least once 
+				across the payroll spectrum made it to the playoffs at least once 
 				since 2013, a noticeable dominance in appearances by the Dodgers, Mets, 
 				Yankees, Astros and Braves is observed. This is partially because the 
 				weighted calculation of playoff bracket appearances takes into account 
 				how far teams make it in the playoffs. Both the Dodgers and the Astros 
 				have made it to four World Series since 2013 and won twice. </p>
+
+			<p>
+				This shows that money had consistent influence on success. </p>
 	
 		<div class="row">
 			<Image src="assets/images/winperscatter.png" alt text="Win Per vs. Average Salary Scatterplot"/>
@@ -574,8 +605,12 @@
 				So with Opening Day quickly approaching at the end of this month, could 
 				an unforeseen underdog get lucky this season?  </p>
 		</div>
+	<div class="baseball8">
+		<Image 
+			src="assets/images/baseball9.png"
+			alt="Baseball Magic 8 Ball"/>
+	</div>
 	</section>
-</div>
 
 <footer>
 	<p>
@@ -630,16 +665,16 @@
         max-width: 200px;
     }
     .name-salary {
-        display: block;
-        margin: 10px 30px;
+        display: inline-block;
         border-radius: 5px;
         height: 150px;
+		text-align:center;
     } 
 	.caption{
 			max-width: 60rem;
 			padding: 16px;
 			margin: 0 auto;
-			font-size: small;
+			font-size: x-small;
 			position: relative;
 	}
 	.stadium-container {
@@ -648,7 +683,7 @@
         height: auto;
         max-width: 700px;
         overflow: hidden;
-        margin: 0 32px;
+        margin: 0 auto;
     }
     .name-salary {
         display: block;
@@ -659,12 +694,16 @@
 	img {
 		width: 50%;
 		height: 50%;
-		object-fit: cover;
 	}
 	footer {
 		background: var(--color-gray-800);
 		color: white;
 		padding: 1rem;
 		text-align: center;
+	}
+	.baseball8 {
+		width: 960px;
+		height: 540px;
+		margin: 0 auto;
 	}
 </style>
