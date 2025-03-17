@@ -194,6 +194,17 @@
 		<div class="text">
 			<p>The Moneyball Philosophy</p>
 		</div>
+		<div style="text-align: center">
+		<iframe width="840" height="472.5" 
+			src="https://www.youtube.com/embed/Tzin1DgexlE?si=t9ID64CrUcHnNPc4&amp;start=88" 
+			title="YouTube video player" 
+			frameborder="0" 
+			allow="accelerometer; autoplay; 
+			clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+			referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+			style="margin: 0 auto; justify-content: center; align-items: center;"
+		></iframe>
+		</div>
 	</main>
 	
 	<div class="text">
@@ -226,10 +237,12 @@
 			budget than most of the league, the A’s couldn’t compete financially with 
 			other teams when acquiring new talent, so Beane realized he had to 
 			outsmart—not outspend—his competition. </p>
+	<div class="img">
 		<Image
 			src="assets/images/beanequote.png"
 			alt="Billy Beane Quote from Moneyball (2011)"
 			/>
+	</div>
 		<p>
 			Beane and his front office, including assistant general manager Paul 
 			DePodesta, turned to sabermetrics—a data-driven approach to evaluating 
@@ -562,10 +575,14 @@
 				an unforeseen underdog get lucky this season?  </p>
 		</div>
 	</section>
-	<section>
+</div>
 
-	</section>
-	</div>
+<footer>
+	<p>
+		This is a project by students at the UC Berkeley Graduate School of
+		Journalism
+	</p>
+</footer>
 
 <style>
 	.text {
@@ -587,11 +604,6 @@
 		padding: 0 auto;
 		font-weight: bold;
 		font-size: xx-large;
-	}
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 16px;
 	}
 	.row{
 		display: flex;
@@ -644,4 +656,15 @@
         border-radius: 5px;
         height: 150px;
     }
+	img {
+		width: 50%;
+		height: 50%;
+		object-fit: cover;
+	}
+	footer {
+		background: var(--color-gray-800);
+		color: white;
+		padding: 1rem;
+		text-align: center;
+	}
 </style>
